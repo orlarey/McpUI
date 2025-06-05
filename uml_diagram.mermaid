@@ -1,0 +1,71 @@
+classDiagram
+    class UI {
+        <<interface>>
+        +addHorizontalSlider(label, zone, init, min, max, step)
+        +addVerticalSlider(label, zone, init, min, max, step)
+        +addButton(label, zone)
+        +addNumEntry(label, zone, init, min, max, step)
+        +openVerticalBox(label)
+        +openHorizontalBox(label)
+        +openTabBox(label)
+        +closeBox()
+        +declare(zone, key, value)
+    }
+
+    class McpTool {
+        <<interface>>
+        +name() string
+        +describe() string
+        +call(arguments) string
+    }
+
+    class SimpleMCPServer {
+        -fRegisteredTools: map~string, unique_ptr~McpTool~~
+        -fServerName: string
+        -fServerVersion: string
+        +setServerName(name)
+        +setServerVersion(version)
+        +registerTool(tool)
+        +run()
+        -handleToolsList()
+        -handleToolCall(id, toolName, arguments)
+        -sendResponse(id, result)
+        -sendError(id, code, message)
+    }
+
+    class McpWidget {
+        -fAddress: FAUSTFLOAT*
+        -fMinValue: FAUSTFLOAT
+        -fMaxValue: FAUSTFLOAT
+        -fInitValue: FAUSTFLOAT
+        -fName: string
+        -fPath: string
+        +McpWidget(label, path, init, min, max, address)
+        +name() string
+        +describe() string
+        +call(arguments) string
+        -extractStringValue(json, key) string
+    }
+
+    class McpUI {
+        -fServer: SimpleMCPServer
+        -fCurrentPath: vector~string~
+        +McpUI()
+        +run()
+        +addHorizontalSlider(label, zone, init, min, max, step)
+        +addVerticalSlider(label, zone, init, min, max, step)
+        +addButton(label, zone)
+        +addNumEntry(label, zone, init, min, max, step)
+        +openVerticalBox(label)
+        +openHorizontalBox(label)
+        +openTabBox(label)
+        +closeBox()
+        -getReversedPath() string
+        -sanitizeName(name) string
+    }
+
+    UI <|.. McpUI : implements
+    McpTool <|.. McpWidget : implements
+    McpUI --> SimpleMCPServer : contains
+    SimpleMCPServer --> McpTool : manages
+    McpUI ..> McpWidget : creates
