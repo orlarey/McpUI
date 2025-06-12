@@ -101,12 +101,6 @@ Add your Faust application to Claude Desktop's configuration file (`~/Library/Ap
 ```json
 {
     "mcpServers": {
-        "faust": {
-            "command": "node",
-            "args": [
-                "/Users/yannorlarey/Documents/Install/faust-mcp/build/index.js"
-            ]
-        },
         "wahoo": {
             "command": "/Users/yannorlarey/Documents/Install/faust/wahoo.app/Contents/MacOS/wahoo",
             "args": ["--mcp"]
