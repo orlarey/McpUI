@@ -83,3 +83,41 @@ faust2caqt myDSP.dsp
 # Run with MCP server enabled
 ./myDSP --mcp
 ```
+
+When the `--mcp` flag is provided:
+1. The application builds the DSP user interface with the MCP handler
+2. An MCP server starts in a separate thread
+3. The server communicates via stdin/stdout using JSON-RPC 2.0
+4. Debug output to stdout is suppressed to maintain protocol integrity
+
+## Integration with LLM Clients
+
+To use your Faust application with LLM clients like Claude Desktop, you need to declare the MCP server in the client's configuration file.
+
+### Claude Desktop Configuration
+
+Add your Faust application to Claude Desktop's configuration file (`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS):
+
+```json
+{
+    "mcpServers": {
+        "faust": {
+            "command": "node",
+            "args": [
+                "/Users/yannorlarey/Documents/Install/faust-mcp/build/index.js"
+            ]
+        },
+        "wahoo": {
+            "command": "/Users/yannorlarey/Documents/Install/faust/wahoo.app/Contents/MacOS/wahoo",
+            "args": ["--mcp"]
+        }
+    }
+}
+```
+
+**Configuration explanation:**
+- `"wahoo"`: Server name (can be any identifier)
+- `"command"`: Path to your compiled Faust application executable
+- `"args"`: Command line arguments, including the required `"--mcp"` flag
+
+After updating the configuration, restart Claude Desktop to load the new MCP server. Your Faust application will then be available as an MCP tool within Claude conversations.
