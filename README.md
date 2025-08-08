@@ -4,7 +4,7 @@ A prototype FAUST architecture that enables DSP programs to be controlled via th
 
 ## What is the Model Context Protocol (MCP)?
 
-The **Model Context Protocol (MCP)** is an open standard introduced by Anthropic in November 2024 for enabling AI assistants to connect with external data sources and tools. It defines a client-server architecture using JSON-RPC 2.0 communication over stdio or HTTP.
+The **Model Context Protocol (MCP)** [https://docs.anthropic.com/en/docs/mcp](https://docs.anthropic.com/en/docs/mcp) is an open standard introduced by Anthropic in November 2024 for enabling AI assistants to connect with external data sources and tools. It defines a client-server architecture using JSON-RPC 2.0 communication over stdio or HTTP.
 
 ### MCP Components
 
